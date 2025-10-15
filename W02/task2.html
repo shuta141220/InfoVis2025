@@ -1,0 +1,27 @@
+<html>
+    <head>
+	<title>W02: Task 02</title>
+    </head>
+    <body>
+	<h1>Vec3 min/mid/max</h1>
+
+    <p id="result"></p>
+
+    <script src="vec3.js"></script>
+    <script>
+        const x = 5, y = 4, z = 8;
+
+        const v = new Vec3(x, y, z);
+
+        const min = v.min();
+        const mid = v.mid();
+        const max = v.max();
+
+        document.getElementById("result").innerHTML =
+            `x = ${x}, y = ${y}, z = ${z}<br>` +
+            `min = ${min}<br>` +
+            `mid = ${mid}<br>` +
+            `max = ${max}`;
+	</script>
+    </body>
+</html>
