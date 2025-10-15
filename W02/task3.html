@@ -1,10 +1,65 @@
 <html>
     <head>
-	<title>W02: Example 01</title>
+    <title>W02: Task 03</title>
     </head>
     <body>
-	<script>
-	 document.write("Hello World!");
-	</script>
+
+    <h1>三角形の面積計算</h1>
+
+    <p>
+        頂点0: 
+        x0 <input type="number" id="x0" value="1"> 
+        y0 <input type="number" id="y0" value="2"> 
+        z0 <input type="number" id="z0" value="3">
+    </p>
+    <p>
+        頂点1: 
+        x1 <input type="number" id="x1" value="4"> 
+        y1 <input type="number" id="y1" value="5"> 
+        z1 <input type="number" id="z1" value="6">
+    </p>
+    <p>
+        頂点2: 
+        x2 <input type="number" id="x2" value="7"> 
+        y2 <input type="number" id="y2" value="8"> 
+        z2 <input type="number" id="z2" value="9">
+    </p>
+
+    <p>
+        <input type="button" value="面積を計算" onclick="calculateArea()">
+    </p>
+
+    <p id="result"></p>
+
+    <script src="vec3.js"></script>
+
+    <script>
+    function AreaOfTriangle(v0, v1, v2) {
+        const a = new Vec3(v1.x, v1.y, v1.z).sub(v0);
+        const b = new Vec3(v2.x, v2.y, v2.z).sub(v0);
+        const cross = a.cross(b);
+        return 0.5 * cross.length();
+    }
+
+    function calculateArea() {
+        const x0 = Number(document.getElementById("x0").value);
+        const y0 = Number(document.getElementById("y0").value);
+        const z0 = Number(document.getElementById("z0").value);
+        const x1 = Number(document.getElementById("x1").value);
+        const y1 = Number(document.getElementById("y1").value);
+        const z1 = Number(document.getElementById("z1").value);
+        const x2 = Number(document.getElementById("x2").value);
+        const y2 = Number(document.getElementById("y2").value);
+        const z2 = Number(document.getElementById("z2").value);
+
+        const v0 = new Vec3(x0, y0, z0);
+        const v1 = new Vec3(x1, y1, z1);
+        const v2 = new Vec3(x2, y2, z2);
+
+        const S = AreaOfTriangle(v0, v1, v2);
+
+        document.getElementById("result").innerHTML = `三角形の面積: ${S.toFixed(3)}`;
+    }
+    </script>
     </body>
 </html>
