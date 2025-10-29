@@ -5,7 +5,7 @@
     <body>
 	<script src="https://d3js.org/d3.v4.min.js"></script>
 	<script>
-	 var svg = d3.select("body").append("svg").attr("width", 400).attr("height", 200);
+	 var svg = d3.select("body").append("svg");
 	 d3.csv("https://shuta141220.github.io/InfoVis2025/W04/w04_task1.csv", function(data){
 	     svg.selectAll("circle")
 		.data(data)
