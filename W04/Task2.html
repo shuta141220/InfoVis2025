@@ -8,6 +8,7 @@
 	 var data = [100,50,80];
 	 var padding = 10;
 	 var height = 20;
+     var barOffset = 100; //ラベル用のスペース
 	 var svg = d3.select("body").append("svg");
 	 d3.csv("https://shuta141220.github.io/InfoVis2025/W04/w04_task2.csv", function(data) {
 
@@ -21,29 +22,29 @@
             .data(data)
             .enter()
             .append("rect")
-            .attr("x", padding)
+            .attr("x", barOffset)
             .attr("y", function(d, i) {
                 return padding + i * (height + padding);
             })
             .attr("width", function(d) {
-                return d.value;  
+                return d.value;
             })
             .attr("height", height)
             .style("fill", "steelblue");
-
 
         svg.selectAll("text.label")
             .data(data)
             .enter()
             .append("text")
             .attr("class", "label")
-            .attr("x", 10)
+            .attr("x", 10)  
             .attr("y", function(d, i) {
-                return padding + i * (height + padding) + height / 1.5;
+                return padding + i * (height + padding) + height * 0.7;
             })
             .text(function(d) {
                 return d.label;
-            });
+            })
+            .style("font-size", "12px");
     });
 	</script>
     </body>
