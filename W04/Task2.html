@@ -9,12 +9,22 @@
 	 var padding = 10;
 	 var height = 20;
      var barOffset = 30; //ラベル用のスペース
-	 var svg = d3.select("body").append("svg");
+	 var svgWidth = 500;
+
+     var svg = d3.select("body").append("svg")
+                .attr("width", svgWidth) 
+                .attr("height", 300);
 	 d3.csv("https://shuta141220.github.io/InfoVis2025/W04/w04_task2.csv", function(data) {
 
         data.forEach(function(d) {
             d.value = +d.value;
         });
+
+        var maxValue = d3.max(data, function(d){ return d.value; });
+
+        var xScale = d3.scaleLinear()
+                        .domain([0, maxValue])
+                        .range([0, svgWidth - barOffset - 20]); // 右端に余白
 
         svg.attr("height", data.length * (height + padding) + padding);
 
@@ -27,17 +37,18 @@
                 return padding + i * (height + padding);
             })
             .attr("width", function(d) {
-                return d.value;
+                return xScale(d.value);
             })
             .attr("height", height)
             .style("fill", "steelblue");
 
+        // ラベル表示（左側）
         svg.selectAll("text.label")
             .data(data)
             .enter()
             .append("text")
             .attr("class", "label")
-            .attr("x", 10)  
+            .attr("x", 10)
             .attr("y", function(d, i) {
                 return padding + i * (height + padding) + height * 0.7;
             })
