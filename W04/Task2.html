@@ -30,6 +30,20 @@
             })
             .attr("height", height)
             .style("fill", "steelblue");
+
+
+        svg.selectAll("text.label")
+            .data(data)
+            .enter()
+            .append("text")
+            .attr("class", "label")
+            .attr("x", 10)
+            .attr("y", function(d, i) {
+                return padding + i * (height + padding) + height / 1.5;
+            })
+            .text(function(d) {
+                return d.label;
+            });
     });
 	</script>
     </body>
