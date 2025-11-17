@@ -1,112 +1,39 @@
 d3.csv("https://shuta141220.github.io/InfoVis2025/W06/Task1.csv")
-    .then( data => {
-        data.forEach( d => {
+    .then(data => {
+        data.forEach(d => {
             d.x = +d.x;
             d.y = +d.y;
             d.r = +d.r;
         });
 
-        const config = {
-            parent: '#drawing_region',
-            width: 256,
-            height: 256,
-            margin: {top:30, right:20, bottom:40, left:40}
-        };
-
-        const scatter_plot = new ScatterPlot( config, data );
-        scatter_plot.update();
+        ShowScatterPlot(data);
     })
-    .catch( error => {
-        console.log( error );
+    .catch(error => {
+        console.error(error);
     });
 
-class ScatterPlot {
-    constructor( config, data ) {
-        this.config = {
-            parent: config.parent,
-            width: config.width || 256,
-            height: config.height || 256,
-            margin: config.margin || {top:10, right:10, bottom:10, left:10}
-        };
-        this.data = data;
-        this.init();
-    }
+function ShowScatterPlot(data) {
+    const width = 256;
+    const height = 256;
 
-    init() {
-        const self = this;
+    const svg = d3.select("#drawing_region")
+        .attr("width", width)
+        .attr("height", height);
 
-        self.svg = d3.select( self.config.parent )
-            .attr('width', self.config.width)
-            .attr('height', self.config.height);
+    const xscale = d3.scaleLinear()
+        .domain([d3.min(data, d => d.x), d3.max(data, d => d.x)])
+        .range([0, width]);
 
-        self.chart = self.svg.append('g')
-            .attr('transform', `translate(${self.config.margin.left}, ${self.config.margin.top})`);
+    const yscale = d3.scaleLinear()
+        .domain([d3.min(data, d => d.y), d3.max(data, d => d.y)])
+        .range([height, 0]); 
 
-        self.inner_width = self.config.width - self.config.margin.left - self.config.margin.right;
-        self.inner_height = self.config.height - self.config.margin.top - self.config.margin.bottom;
-
-        self.xscale = d3.scaleLinear().range( [0, self.inner_width] );
-        self.yscale = d3.scaleLinear().range( [self.inner_height, 0] );
-
-        self.xaxis = d3.axisBottom( self.xscale ).ticks(6);
-        self.yaxis = d3.axisLeft( self.yscale ).ticks(6);
-
-        self.xaxis_group = self.chart.append('g')
-            .attr('transform', `translate(0, ${self.inner_height})`);
-
-        self.yaxis_group = self.chart.append('g');
-
-        self.svg.append("text")
-            .attr("x", self.config.width / 2)
-            .attr("y", self.config.height - 5)
-            .attr("text-anchor", "middle")
-            .text("x");
-
-        self.svg.append("text")
-            .attr("transform", "rotate(-90)")
-            .attr("x", -self.config.height / 2)
-            .attr("y", 15)
-            .attr("text-anchor", "middle")
-            .text("y");
-
-        self.svg.append("text")
-            .attr("x", self.config.width / 2)
-            .attr("y", 20)
-            .attr("text-anchor", "middle")
-            .style("font-size", "16px")
-            .text("Task 1");
-    }
-
-    update() {
-        const self = this;
-
-        const xmin = d3.min( self.data, d => d.x );
-        const xmax = d3.max( self.data, d => d.x );
-        const ymin = d3.min( self.data, d => d.y );
-        const ymax = d3.max( self.data, d => d.y );
-
-        const xpadding = (xmax - xmin) * 0.1;
-        const ypadding = (ymax - ymin) * 0.1;
-
-        self.xscale.domain( [xmin - xpadding, xmax + xpadding] );
-        self.yscale.domain( [ymin - ypadding, ymax + ypadding] );
-
-        self.render();
-    }
-
-    render() {
-        const self = this;
-
-        self.chart.selectAll("circle")
-            .data(self.data)
-            .enter()
-            .append("circle")
-            .attr("cx", d => self.xscale( d.x ) )
-            .attr("cy", d => self.yscale( d.y ) )
-            .attr("r", d => d.r )
-            .attr("fill", "black");
-
-        self.xaxis_group.call( self.xaxis );
-        self.yaxis_group.call( self.yaxis );
-    }
+    svg.selectAll("circle")
+        .data(data)
+        .enter()
+        .append("circle")
+        .attr("cx", d => xscale(d.x))
+        .attr("cy", d => yscale(d.y))
+        .attr("r", d => d.r)
+        .attr("fill", "black");
 }
