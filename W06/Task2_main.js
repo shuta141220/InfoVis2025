@@ -10,7 +10,7 @@ d3.csv("https://shuta141220.github.io/InfoVis2025/W06/Task1.csv")
             parent: '#drawing_region',
             width: 256,
             height: 256,
-            margin: { top: 10, right: 10, bottom: 20, left: 30 }
+            margin: { top: 40, right: 20, bottom: 40, left: 50 }
         };
 
         const scatter_plot = new ScatterPlot(config, data);
@@ -92,29 +92,27 @@ class ScatterPlot {
     self.xaxis_group.call(self.xaxis);
     self.yaxis_group.call(self.yaxis);
 
-    self.chart.append("text")
-        .attr("x", self.inner_width / 2)
-        .attr("y", self.inner_height + 35)
+    self.svg.append("text")
+        .attr("x", self.config.width / 2)
+        .attr("y", 20) 
         .attr("text-anchor", "middle")
-        .attr("font-size", "14px")
-        .attr("font-weight", "bold")
-        .text("X軸");
-
-    self.chart.append("text")
-        .attr("transform", `rotate(-90)`)
-        .attr("x", -self.inner_height / 2)
-        .attr("y", -40)
-        .attr("text-anchor", "middle")
-        .attr("font-size", "14px")
-        .attr("font-weight", "bold")
-        .text("Y軸");
+        .style("font-size", "16px")
+        .style("font-weight", "bold")
+        .text("散布図");
 
     self.svg.append("text")
         .attr("x", self.config.width / 2)
-        .attr("y", self.config.margin.top / 2)
+        .attr("y", self.config.height - 5)
         .attr("text-anchor", "middle")
-        .attr("font-size", "18px")
-        .attr("font-weight", "bold")
-        .text("円の散布図");
+        .style("font-size", "12px")
+        .text("X Label");
+
+    self.svg.append("text")
+        .attr("transform", `rotate(-90)`)
+        .attr("x", -self.config.height / 2)
+        .attr("y", 15)
+        .attr("text-anchor", "middle")
+        .style("font-size", "12px")
+        .text("Y Label");
     }
 }
