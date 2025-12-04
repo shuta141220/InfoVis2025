@@ -50,8 +50,11 @@ class LineChart {
         self.yscale = d3.scaleLinear()
             .range([self.inner_height, 0]);
 
-        self.xaxis = d3.axisBottom(self.xscale).ticks(5);
-        self.yaxis = d3.axisLeft(self.yscale).ticks(5);
+        self.xaxis = d3.axisBottom(self.xscale).ticks(5).tickSizeOuter(0);
+        self.yaxis = d3.axisLeft(self.yscale).ticks(5).tickSizeOuter(0);
+
+        self.xaxis.tickFormat('');
+        self.yaxis.tickFormat('');
 
         self.line = d3.line()
             .x(d => self.xscale(d.x))
