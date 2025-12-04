@@ -83,7 +83,7 @@ class BarChart {
             .attr("y", d => self.yscale(d.label))
             .attr("width", d => self.xscale(d.value))
             .attr("height", self.yscale.bandwidth())
-            .attr("fill", "steelblue");
+            .attr("fill", "black");
 
         self.xaxis_group.call(self.xaxis);
         self.yaxis_group.call(self.yaxis);
