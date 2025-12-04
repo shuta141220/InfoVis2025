@@ -7,8 +7,8 @@ d3.csv("https://shuta141220.github.io/InfoVis2025/W08/w08_task2.csv")
 
         const config = {
             parent: '#drawing_region',
-            width: 300,
-            height: 200,
+            width: 256,
+            height: 128,
             margin: { top: 20, right: 20, bottom: 20, left: 30 }
         };
 
@@ -96,5 +96,8 @@ class LineChart {
             .attr("cy", d => self.yscale(d.y))
             .attr("r", 3)
             .attr("fill", "black");
+
+        self.xaxis_group.call(self.xaxis);
+        self.yaxis_group.call(self.yaxis);
     }
 }
