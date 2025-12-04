@@ -7,8 +7,8 @@ d3.csv("https://shuta141220.github.io/InfoVis2025/W08/w08_task2.csv")
 
         const config = {
             parent: '#drawing_region',
-            width: 256,
-            height: 128,
+            width: 300,
+            height: 200,
             margin: { top: 20, right: 20, bottom: 20, left: 30 }
         };
 
