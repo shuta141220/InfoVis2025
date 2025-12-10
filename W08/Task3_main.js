@@ -43,7 +43,7 @@ class PieChart {
         self.pie = d3.pie().value(d => d.value);
 
         self.arc = d3.arc()
-            .innerRadius(0)
+            .innerRadius(self.radius / 2)
             .outerRadius(self.radius);
     }
 
