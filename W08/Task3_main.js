@@ -64,5 +64,18 @@ class PieChart {
             .attr("fill", d => self.color(d.data.label))
             .attr("stroke", "black")
             .style("stroke-width", "1px");
+
+        self.chart.selectAll("text")
+            .data(pie_data)
+            .enter()
+            .append("text")
+            .attr("transform", d => {
+                const [x, y] = self.arc.centroid(d);
+                return `translate(${x}, ${y})`;
+            })
+            .attr("text-anchor", "middle")
+            .attr("font-size", "10px")
+            .attr("fill", "black")
+            .text(d => d.data.label);
     }
 }
