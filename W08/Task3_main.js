@@ -20,11 +20,7 @@ d3.csv("https://shuta141220.github.io/InfoVis2025/W08/w08_task3.csv")
 
 class PieChart {
     constructor(config, data) {
-        this.config = {
-            parent: config.parent,
-            width: config.width,
-            height: config.height,
-        };
+        this.config = config;
         this.data = data;
         this.init();
     }
@@ -34,11 +30,11 @@ class PieChart {
 
         self.radius = Math.min(self.config.width, self.config.height) / 2;
 
-        // SVG
         self.svg = d3.select(self.config.parent)
             .attr("width", self.config.width)
-            .attr("height", self.config.height)
-            .append("g")
+            .attr("height", self.config.height);
+
+        self.chart = self.svg.append("g")
             .attr("transform",
                 `translate(${self.config.width / 2}, ${self.config.height / 2})`);
 
@@ -60,7 +56,7 @@ class PieChart {
 
         const pie_data = self.pie(self.data);
 
-        self.svg.selectAll("path")
+        self.chart.selectAll("path")
             .data(pie_data)
             .enter()
             .append("path")
