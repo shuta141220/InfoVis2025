@@ -1,12 +1,9 @@
 const width = 256;
-const height = 400;
 const padding = 10;
 const bar_height = 20;
 
-
 const svg = d3.select('#drawing_region')
-    .attr('width', width)
-    .attr('height', height);
+    .attr('width', width);
 
 let data;
 
@@ -18,6 +15,9 @@ d3.csv("https://shuta141220.github.io/InfoVis2025/W10/w10_task1.csv")
     });
 
 function update(data) {
+
+    const height = padding + data.length * (bar_height + padding);
+    svg.attr("height", height);
 
     const max_value = d3.max(data, d => d.value);
 
