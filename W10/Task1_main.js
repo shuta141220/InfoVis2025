@@ -55,3 +55,15 @@ d3.select('#reverse')
         data.reverse();
         update(data);
     });
+
+d3.select('#asc')
+    .on('click', () => {
+        data.sort((a, b) => a.value - b.value);
+        update(data);
+    });
+
+d3.select('#desc')
+    .on('click', () => {
+        data.sort((a, b) => b.value - a.value);
+        update(data);
+    });
