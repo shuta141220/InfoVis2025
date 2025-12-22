@@ -83,9 +83,9 @@ function draw(data) {
 
     svg.append('text')
         .attr('x', width / 2)
-        .attr('y', 16)
+        .attr('y', 20)
         .attr('text-anchor', 'middle')
-        .attr('font-size', '14px')
+        .attr('font-size', '16px')
         .attr('font-weight', 'bold')
         .text('散布図');
 
@@ -99,7 +99,7 @@ function draw(data) {
     svg.append('text')
         .attr('transform', 'rotate(-90)')
         .attr('x', -height / 2)
-        .attr('y', 12)
+        .attr('y', 15)
         .attr('text-anchor', 'middle')
         .attr('font-size', '12px')
         .text('Y Label');
