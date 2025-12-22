@@ -4,7 +4,7 @@ d3.csv("https://shuta141220.github.io/InfoVis2025/W10/w10_task2.csv")
         data.forEach(d => {
             d.x = +d.x;
             d.y = +d.y;
-            d.r = 5; 
+            d.r = 5;
         });
 
         draw(data);
@@ -12,9 +12,9 @@ d3.csv("https://shuta141220.github.io/InfoVis2025/W10/w10_task2.csv")
 
 function draw(data) {
 
-    const width = 256;
+    const width  = 256;
     const height = 256;
-    const margin = { top: 20, right: 20, bottom: 30, left: 30 };
+    const margin = { top: 30, right: 20, bottom: 30, left: 40 };
 
     const svg = d3.select('#drawing_region')
         .attr('width', width)
@@ -42,7 +42,7 @@ function draw(data) {
     chart.append('g')
         .call(d3.axisLeft(yscale).ticks(5));
 
-    let circles = chart.selectAll('circle')
+    const circles = chart.selectAll('circle')
         .data(data)
         .enter()
         .append('circle');
@@ -55,6 +55,10 @@ function draw(data) {
 
     circles
         .on('mouseover', (e, d) => {
+
+            d3.select(e.currentTarget)
+                .attr('fill', 'red');
+
             d3.select('#tooltip')
                 .style('opacity', 1)
                 .html(`
@@ -68,8 +72,35 @@ function draw(data) {
                 .style('left', (e.pageX + padding) + 'px')
                 .style('top',  (e.pageY + padding) + 'px');
         })
-        .on('mouseleave', () => {
+        .on('mouseleave', (e) => {
+
+            d3.select(e.currentTarget)
+                .attr('fill', 'black');
+
             d3.select('#tooltip')
                 .style('opacity', 0);
         });
+
+    svg.append('text')
+        .attr('x', width / 2)
+        .attr('y', 16)
+        .attr('text-anchor', 'middle')
+        .attr('font-size', '14px')
+        .attr('font-weight', 'bold')
+        .text('散布図');
+
+    svg.append('text')
+        .attr('x', width / 2)
+        .attr('y', height - 5)
+        .attr('text-anchor', 'middle')
+        .attr('font-size', '12px')
+        .text('X Label');
+
+    svg.append('text')
+        .attr('transform', 'rotate(-90)')
+        .attr('x', -height / 2)
+        .attr('y', 12)
+        .attr('text-anchor', 'middle')
+        .attr('font-size', '12px')
+        .text('Y Label');
 }
