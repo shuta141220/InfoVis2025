@@ -91,7 +91,7 @@ function draw(data) {
 
     svg.append('text')
         .attr('x', width / 2)
-        .attr('y', height + 2)
+        .attr('y', height)
         .attr('text-anchor', 'middle')
         .attr('font-size', '12px')
         .text('X Label');
