@@ -13,7 +13,7 @@ d3.csv("https://shuta141220.github.io/InfoVis2025/W10/w10_task2.csv")
 function draw(data) {
 
     const width  = 256;
-    const height = 400;
+    const height = 256;
     const margin = { top: 30, right: 20, bottom: 30, left: 40 };
 
     const svg = d3.select('#drawing_region')
