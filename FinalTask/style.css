@@ -36,6 +36,12 @@ header h1 {
     font-size: 14px;
 }
 
+#reset-zoom {
+    padding: 2px 8px;
+    font-size: 12px;
+    cursor: pointer;
+}
+
 
 .view-container {
     background: white;
@@ -52,8 +58,15 @@ header h1 {
     border: 1px solid #e0e0e0;
 }
 
+#toggle-all-types {
+    padding: 2px 8px;
+    font-size: 12px;
+    cursor: pointer;
+    margin-bottom: 5px;
+}
+
 #legend-container {
-    margin-top: 10px;
+    margin-top: 5px;
     display: flex;
     flex-wrap: wrap;
     justify-content: center;

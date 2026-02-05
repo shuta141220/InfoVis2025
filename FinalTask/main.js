@@ -47,10 +47,32 @@ d3.csv("Pokemon.csv")
             scatterPlot.update();
         });
 
+        d3.select('#reset-zoom').on('click', function () {
+            scatterPlot.svg.transition().duration(750)
+                .call(scatterPlot.zoom.transform, d3.zoomIdentity);
+        });
+
         // Legend Generation
         const types = Array.from(new Set(data.map(d => d['Type 1']))).sort();
         const legendContainer = d3.select('#legend-container');
         const typeColors = scatterPlot.typeColorScale;
+
+        // Toggle All Button Logic
+        let isAllSelected = true; // Initial state
+
+        d3.select('#toggle-all-types').on('click', function () {
+            isAllSelected = !isAllSelected; // Toggle state
+
+            if (isAllSelected) {
+                // Select All
+                d3.selectAll('.legend-item').classed('dimmed', false);
+                scatterPlot.filterTypes(types); // Show all
+            } else {
+                // Deselect All
+                d3.selectAll('.legend-item').classed('dimmed', true);
+                scatterPlot.filterTypes([]); // Show none
+            }
+        });
 
         types.forEach(type => {
             legendContainer.append('div')
@@ -69,6 +91,11 @@ d3.csv("Pokemon.csv")
                             activeTypes.push(d3.select(this).text());
                         }
                     });
+
+                    // Update global toggle state if necessary (heuristic)
+                    if (activeTypes.length === types.length) isAllSelected = true;
+                    if (activeTypes.length === 0) isAllSelected = false;
+
                     scatterPlot.filterTypes(activeTypes);
                 });
         });
@@ -108,8 +135,19 @@ class ScatterPlot {
             .attr('width', self.config.width)
             .attr('height', self.config.height);
 
+        // Add Clip Path to prevent circles from drawing outside axes
+        self.svg.append("defs").append("clipPath")
+            .attr("id", "clip")
+            .append("rect")
+            .attr("width", self.config.width - self.config.margin.left - self.config.margin.right)
+            .attr("height", self.config.height - self.config.margin.top - self.config.margin.bottom);
+
         self.chart = self.svg.append('g')
             .attr('transform', `translate(${self.config.margin.left}, ${self.config.margin.top})`);
+
+        // Group for circles with clip path
+        self.circlesGroup = self.chart.append('g')
+            .attr("clip-path", "url(#clip)");
 
         self.innerWidth = self.config.width - self.config.margin.left - self.config.margin.right;
         self.innerHeight = self.config.height - self.config.margin.top - self.config.margin.bottom;
@@ -140,6 +178,14 @@ class ScatterPlot {
             .attr('text-anchor', 'middle')
             .attr('font-size', '14px')
             .text(self.config.ylabel);
+
+        // Zoom Behavior
+        self.zoom = d3.zoom()
+            .scaleExtent([0.5, 20])
+            .extent([[0, 0], [self.innerWidth, self.innerHeight]])
+            .on("zoom", (event) => self.updateZoom(event));
+
+        self.svg.call(self.zoom);
     }
 
     update() {
@@ -157,6 +203,9 @@ class ScatterPlot {
         self.xScale.domain([0, d3.max(self.data, d => d[xAttr])]).nice();
         self.yScale.domain([0, d3.max(self.data, d => d[yAttr])]).nice();
 
+        // Reset Zoom
+        self.svg.transition().duration(750).call(self.zoom.transform, d3.zoomIdentity);
+
         self.render();
     }
 
@@ -170,7 +219,7 @@ class ScatterPlot {
         self.yAxisGroup.transition().duration(1000).call(self.yAxis);
 
         // General Update Pattern
-        const circles = self.chart.selectAll('circle')
+        const circles = self.circlesGroup.selectAll('circle')
             .data(self.filteredData, d => d.Name); // Key-based binding
 
         circles.join(
@@ -223,7 +272,7 @@ class ScatterPlot {
                     .style('top', (event.pageY + 10) + 'px');
             })
             .on('mouseout', (event, d) => {
-                // Un-highlight
+                // Un-highlight (return to normal size depends on zoom... wait, r is constant 6)
                 d3.select(event.currentTarget)
                     .transition().duration(200)
                     .attr('r', 6)
@@ -237,6 +286,22 @@ class ScatterPlot {
                     self.linkedView.update(null);
                 }
             });
+    }
+
+    updateZoom(event) {
+        const self = this;
+        const newXScale = event.transform.rescaleX(self.xScale);
+        const newYScale = event.transform.rescaleY(self.yScale);
+
+        self.xAxisGroup.call(self.xAxis.scale(newXScale));
+        self.yAxisGroup.call(self.yAxis.scale(newYScale));
+
+        const xAttr = self.config.xlabel;
+        const yAttr = self.config.ylabel;
+
+        self.circlesGroup.selectAll('circle')
+            .attr('cx', d => newXScale(d[xAttr]))
+            .attr('cy', d => newYScale(d[yAttr]));
     }
 
     filterTypes(activeTypes) {

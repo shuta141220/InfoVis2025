@@ -32,10 +32,10 @@
 3.  **ブラウザでアクセス**
     Webブラウザ（Chrome, Firefox, Safari等）を開き、以下のアドレスにアクセスしてください。
     
-    [http://localhost:8000/index.html](http://localhost:8000/index.html)
+    [http://localhost:8000/system.html](http://localhost:8000/system.html)
 
 ## 3. ファイル構成
-*   `index.html`: Webページの構造定義。
+*   `system.html`: Webページの構造定義（メインファイル）。
 *   `style.css`: レイアウトと装飾。
 *   `main.js`: D3.jsを用いた可視化ロジック（クラスベース実装）。
 *   `Pokemon.csv`: 使用するデータセット。
