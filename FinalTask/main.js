@@ -379,7 +379,7 @@ class BarChart {
             .attr('text-anchor', 'middle')
             .style('font-weight', 'bold')
             .style('font-size', '16px')
-            .text("Hover over a Pokemon");
+            .text("Please hover your cursor");
 
         self.xAxisGroup.call(self.xAxis);
         self.yAxisGroup.call(self.yAxis);
@@ -391,7 +391,7 @@ class BarChart {
         let barColor = self.defaultColor;
 
         if (pokemon) {
-            self.titleLabel.text(`${pokemon.Name} Stats`);
+            self.titleLabel.text(`${pokemon.Name}`);
             chartData = self.stats.map(stat => ({
                 label: stat,
                 value: pokemon[stat]
@@ -399,7 +399,7 @@ class BarChart {
             // Match color to Pokemon Type
             barColor = self.typeColorScale(pokemon['Type 1']);
         } else {
-            self.titleLabel.text("Hover over a Pokemon");
+            self.titleLabel.text("Please hover your cursor");
             chartData = self.stats.map(stat => ({
                 label: stat,
                 value: 0
