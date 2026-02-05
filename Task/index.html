@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pokemon Visualization System</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div class="container">
+        <header>
+            <h1>Pokemon Data Visualization</h1>
+        </header>
+        <div class="main-content">
+            <div class="view-container">
+                <h2>Scatter Plot: Overview</h2>
+                <div class="controls">
+                    <label>X Axis:
+                        <select id="x-axis-select">
+                            <option value="Attack" selected>Attack</option>
+                            <option value="Defense">Defense</option>
+                            <option value="HP">HP</option>
+                            <option value="Sp. Atk">Sp. Atk</option>
+                            <option value="Sp. Def">Sp. Def</option>
+                            <option value="Speed">Speed</option>
+                            <option value="Total">Total</option>
+                        </select>
+                    </label>
+                    <label>Y Axis:
+                        <select id="y-axis-select">
+                            <option value="Attack">Attack</option>
+                            <option value="Defense" selected>Defense</option>
+                            <option value="HP">HP</option>
+                            <option value="Sp. Atk">Sp. Atk</option>
+                            <option value="Sp. Def">Sp. Def</option>
+                            <option value="Speed">Speed</option>
+                            <option value="Total">Total</option>
+                        </select>
+                    </label>
+                </div>
+                <div id="scatter-plot"></div>
+                <div id="legend-container"></div>
+            </div>
+            <div class="view-container">
+                <h2>Detail: Base Stats</h2>
+                <div id="bar-chart"></div>
+            </div>
+        </div>
+    </div>
+    <div id="tooltip" class="tooltip"></div>
+
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <script src="main.js"></script>
+</body>
+
+</html>
